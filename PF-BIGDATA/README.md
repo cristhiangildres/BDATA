@@ -5,7 +5,7 @@ Dashboard web hecho con **Flask** que presenta y analiza los datos de los museos
 Proyecto final BIGDATA Desenvolupament d'Aplicacions Web.
 
 - **Web publicada:** _(https://cristhiangildres.pythonanywhere.com/)_
-- **Repositorio:** _(https://github.com/cristhiangildres/BDATA/tree/dfc8057f485bb1a73f6a07e2664b4febf8c852af/PF-BIGDATA)_
+- **Repositorio:** _(https://github.com/cristhiangildres/BDATA/tree/main/PF-BIGDATA)_
 
 ---
 
