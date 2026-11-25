@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<h1>Museos de Barcelona en {{ anio }}</h1>
+
+<form method="get" action="/museos">
+
+  <label>Año
+    <select name="anio">
+      {% for a in anios %}
+        <option value="{{ a }}" {% if a == anio %}selected{% endif %}>{{ a }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Distrito
+    <select name="distrito">
+      <option value="">Todos</option>
+      {% for d in distritos %}
+        <option value="{{ d }}" {% if d == distrito %}selected{% endif %}>{{ d }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Ámbito
+    <select name="ambito">
+      <option value="">Todos</option>
+      {% for a in ambitos %}
+        <option value="{{ a }}" {% if a == ambito %}selected{% endif %}>{{ a }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Titularidad
+    <select name="titularidad">
+      <option value="">Todas</option>
+      {% for t in titularidades %}
+        <option value="{{ t }}" {% if t == titularidad %}selected{% endif %}>{{ t }}</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Ordenar por
+    <select name="orden">
+      <option value="Valor" {% if orden == "Valor" %}selected{% endif %}>Visitantes</option>
+      <option value="Nom_Equipament" {% if orden == "Nom_Equipament" %}selected{% endif %}>Nombre</option>
+      <option value="Nom_Districte" {% if orden == "Nom_Districte" %}selected{% endif %}>Distrito</option>
+    </select>
+  </label>
+
+  <label>Sentido
+    <select name="sentido">
+      <option value="desc" {% if sentido == "desc" %}selected{% endif %}>Mayor a menor / Z-A</option>
+      <option value="asc" {% if sentido == "asc" %}selected{% endif %}>Menor a mayor / A-Z</option>
+    </select>
+  </label>
+
+  <label>Vista
+    <select name="vista">
+      <option value="resumen" {% if vista == "resumen" %}selected{% endif %}>Resumida</option>
+      <option value="detalle" {% if vista == "detalle" %}selected{% endif %}>Detallada</option>
+    </select>
+  </label>
+
+  <button type="submit">Aplicar</button>
+  <a href="/museos">Quitar filtros</a>
+</form>
+
+<div class="grafica">
+  <h3>Los 10 más visitados en {{ anio }}</h3>
+  <img src="data:image/png;base64,{{ grafica }}" alt="Los 10 museos más visitados">
+  <p>Esta gráfica cambia según los filtros que elijas: prueba a filtrar por distrito o ámbito.</p>
+</div>
+
+<p>Se muestran {{ museos|length }} museos.</p>
+
+<table>
+  <tr>
+    <th>#</th>
+    <th>Museo</th>
+    <th>Distrito</th>
+    <th>Visitantes</th>
+    {% if vista == "detalle" %}
+      <th>Barrio</th>
+      <th>Ámbito</th>
+      <th>Titularidad</th>
+      <th>Notas</th>
+    {% endif %}
+  </tr>
+
+  {% for m in museos %}
+  <tr>
+    <td>{{ loop.index }}</td>
+    <td>{{ m["Nom_Equipament"] }}</td>
+    <td>{{ m["Nom_Districte"] }}</td>
+    <td>{{ m["Valor"]|miles }}</td>
+    {% if vista == "detalle" %}
+      <td>{{ m["Nom_Barri"] }}</td>
+      <td>{{ m["Ambit"] }}</td>
+      <td>{{ m["Titularitat"] }}</td>
+      <td>{{ m["Notes_Dades"] }}</td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

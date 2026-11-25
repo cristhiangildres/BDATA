@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Museos de Barcelona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/" class="logo">Museus BCN</a>
+      <div class="enlaces">
+        <a href="/">Inicio</a>
+        <a href="/analisis">Análisis</a>
+        <a href="/museos">Museos</a>
+      </div>
+    </nav>
+  </header>
+
+  {% block cabecera %}{% endblock %}
+
+  <main>
+    {% block contenido %}{% endblock %}
+  </main>
+
+  <footer>
+    Datos: <a href="https://opendata-ajuntament.barcelona.cat/data/ca/dataset/dades-museus-exposicions">Open Data BCN</a>
+    – Institut de Cultura, Ajuntament de Barcelona (CC BY 4.0)
+  </footer>
+</body>
+</html>

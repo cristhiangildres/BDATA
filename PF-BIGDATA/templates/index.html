@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block cabecera %}
+<section class="hero hero-portada">
+  <div class="hero-contenido">
+    <div class="hero-texto">
+      <h1>Barcelona, ciudad de museos</h1>
+      <p>Arte, historia y ciencia repartidos por toda la ciudad. Descubre cuántos museos hay,
+         de qué tipo son, dónde están y quién los gestiona.</p>
+      <div class="botones">
+        <a href="/museos" class="boton boton-claro">Explorar los museos</a>
+        <a href="/analisis" class="boton boton-borde">Ver el análisis</a>
+      </div>
+    </div>
+    <div class="mosaico" aria-hidden="true">
+      {% for i in range(48) %}
+        <span class="tesela c{{ (i * 7 + i // 6) % 5 }} f{{ (i * 3) % 5 }}" style="--i: {{ i }}"></span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<div class="franja"></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="cifras">
+  <div class="cifra">
+    <span class="numero">{{ resumen["num_museos"] }}</span>
+    <span class="etiqueta">museos y centros de exposiciones</span>
+  </div>
+  <div class="cifra">
+    <span class="numero">{{ resumen["num_distritos"] }} de 10</span>
+    <span class="etiqueta">distritos tienen museos</span>
+  </div>
+  <div class="cifra">
+    <span class="numero">{{ resumen["exposiciones"] }}</span>
+    <span class="etiqueta">exposiciones temporales en 2025</span>
+  </div>
+  <div class="cifra">
+    <span class="numero">{{ resumen["piezas"]|miles }}</span>
+    <span class="etiqueta">piezas en sus colecciones</span>
+  </div>
+</div>
+
+<h2>¿Qué tipos de museos hay?</h2>
+<p>Los datos del Ajuntament clasifican cada museo en uno de estos tres ámbitos:</p>
+
+<div class="tipos">
+  <div class="tipo tipo-arte">
+    <span class="numero">{{ resumen["ambitos"]["Arts visuals"] }}</span>
+    <h3>Artes visuales</h3>
+    <p>Pintura, escultura, fotografía, diseño y arte contemporáneo.</p>
+    <p class="ejemplos">{{ resumen["ejemplos"]["Arts visuals"]|join(", ") }}</p>
+  </div>
+  <div class="tipo tipo-historia">
+    <span class="numero">{{ resumen["ambitos"]["Història i memòria"] }}</span>
+    <h3>Historia y memoria</h3>
+    <p>Monumentos, arquitectura modernista y la historia de la ciudad y sus gentes.</p>
+    <p class="ejemplos">{{ resumen["ejemplos"]["Història i memòria"]|join(", ") }}</p>
+  </div>
+  <div class="tipo tipo-ciencia">
+    <span class="numero">{{ resumen["ambitos"]["Ciència"] }}</span>
+    <h3>Ciencia</h3>
+    <p>Naturaleza, animales, el mar y experimentos científicos.</p>
+    <p class="ejemplos">{{ resumen["ejemplos"]["Ciència"]|join(", ") }}</p>
+  </div>
+</div>
+
+<h2>¿Dónde están?</h2>
+<p>Hay museos en {{ resumen["num_distritos"] }} de los 10 distritos, pero se concentran en el centro:
+   solo <strong>Ciutat Vella</strong> tiene <strong>{{ resumen["museos_ciutat_vella"] }}</strong>,
+   más de un tercio del total.</p>
+
+<h2>¿Quién los gestiona?</h2>
+<ul>
+  {% for nombre, cantidad in resumen["titularidades"].items() %}
+    <li>{{ nombre }}: <strong>{{ cantidad }}</strong></li>
+  {% endfor %}
+</ul>
+
+<div class="botones">
+  <a href="/analisis" class="boton">Ver el análisis de visitantes</a>
+  <a href="/museos" class="boton">Explorar todos los museos</a>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block cabecera %}
+<section class="hero">
+  <div class="hero-contenido">
+    <h1>Los museos de Barcelona en cifras</h1>
+    <p>¿Cuánta gente visita los museos de la ciudad, cuáles son los más visitados
+       y cómo les afectó el COVID? Lo explicamos con datos abiertos del Ajuntament, de 2015 a 2025.</p>
+  </div>
+</section>
+<div class="franja"></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="cifras">
+  <div class="cifra">
+    <span class="numero">{{ resumen["total_2025"]|miles }}</span>
+    <span class="etiqueta">visitantes en 2025</span>
+  </div>
+  <div class="cifra">
+    <span class="numero">{{ resumen["num_museos_2025"] }}</span>
+    <span class="etiqueta">museos y centros con datos</span>
+  </div>
+  <div class="cifra">
+    <span class="numero">-{{ resumen["caida_covid"] }} %</span>
+    <span class="etiqueta">visitantes en 2020 por el COVID</span>
+  </div>
+  <div class="cifra">
+    <span class="numero">+{{ resumen["recuperacion"] }} %</span>
+    <span class="etiqueta">en 2025 respecto a 2019</span>
+  </div>
+</div>
+
+<h2>¿Qué nos dicen los datos?</h2>
+
+<div class="grafica">
+  <h3>Visitantes totales por año</h3>
+  <img src="data:image/png;base64,{{ grafica_evolucion }}" alt="Evolución de visitantes 2015-2025">
+  <p>Entre 2015 y 2019 los museos recibían unos 26-27 millones de visitas al año.
+     En 2020 cayeron un <strong>{{ resumen["caida_covid"] }} %</strong> por el cierre y las restricciones del COVID,
+     y no recuperaron su nivel hasta 2023. En 2025 ya lo superan en un <strong>{{ resumen["recuperacion"] }} %</strong>.</p>
+</div>
+
+<div class="grafica">
+  <h3>Visitantes por distrito en 2025</h3>
+  <img src="data:image/png;base64,{{ grafica_distritos }}" alt="Visitantes por distrito en 2025">
+  <p><strong>{{ resumen["distritos_top2"][0] }}</strong> y <strong>{{ resumen["distritos_top2"][1] }}</strong>
+     reúnen el <strong>{{ resumen["porcentaje_distritos_top2"] }} %</strong> de las visitas:
+     allí están la Sagrada Família, la Casa Batlló, el Museu Picasso o el MACBA.
+     Los distritos más alejados del centro apenas reciben visitantes.</p>
+</div>
+
+<h3>Pocos museos concentran muchas visitas</h3>
+<p>Los 3 espacios más visitados de 2025 reunieron el
+   <strong>{{ resumen["porcentaje_top3"] }} %</strong> de todas las visitas:</p>
+<ol>
+  {% for m in resumen["top3"] %}
+    <li>{{ m["Nom_Equipament"] }}: {{ m["Valor"]|miles }} visitantes</li>
+  {% endfor %}
+</ol>
+
+<h3>El COVID vació los museos… y ya se han recuperado</h3>
+<p>En 2020 los museos cerraron entre marzo y mayo y después reabrieron con aforo limitado.
+   Las visitas cayeron un <strong>{{ resumen["caida_covid"] }} %</strong> respecto a 2019.
+   En 2025 ya hay un <strong>{{ resumen["recuperacion"] }} %</strong> más de visitantes que antes de la pandemia.</p>
+
+<p><a href="/museos" class="boton">Ver y filtrar todos los museos</a></p>
+{% endblock %}
